@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Destination Guide</title>
+<style>
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  nav li {
+    display: inline;
+  }
+
+  nav li.active {
+    font-weight: bold;
+  }
+
+  .offers,
+  .offers__wrap {
+    width: 100%;
+  }
+
+  .offers__wrap {
+    margin: 20px 0;
+  }
+
+  .offers__deal {
+    float: left;
+    width: 300px;
+    padding: 15px;
+    margin: 0 20px 0 0;
+    border: 1px solid #eee;
+  }
+
+  .offers__deal h3,
+  .offers__deal p {
+    margin: 0 0 1em;
+  }
+
+  .offers__price,
+  .offers__departfrom,
+  .offers__lengthstay {
+    font-size: 0.875em;
+  }
+
+  .offers__departfrom--title,
+  .offers__lengthstay--title {
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+  <h1>Destination Guide</h1>
+  <h2>Hong Kong, China</h2>
+  <nav>
+    <ul>
+      <li><a href="/">Hong Kong guide</a></li>
+      <li><a href="#hotels">Hotels</a></li>
+    </ul>
+  </nav>
+  <hr>
+  <div id="hotels" class="hotels">
+    <h2>Hotels</h2>
+    <p>Hotels in Hong Kong ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia, nisl vitae volutpat tempus, enim mi vulputate neque, nec viverra enim ex ac purus. Aliquam blandit at diam vitae vehicula. Praesent non elit dictum, facilisis velit vel, volutpat ex. Donec eu magna placerat, blandit diam et, molestie lacus. Maecenas dapibus ac erat non sodales. Curabitur a consectetur ipsum. Sed in rutrum diam, hendrerit tincidunt eros. Suspendisse a urna augue.</p>
+  </div>
+  <hr>
+  <div id="offers" class="offers">
+    <h2>Offers</h2>
+    <nav>
+      <ul>
+        <li><a id="1" href="?location=Hong%20Kong&id=1">Hong Kong</a></li>
+        <li><a id="2" href="?location=Tokyo&id=2">Tokyo</a></li>
+        <li><a id="3" href="?location=Singapore&id=3">Singapore</a></li>
+      </ul>
+    </nav>
+    <div class="offers__wrap"></div>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="js/jquery.history.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
