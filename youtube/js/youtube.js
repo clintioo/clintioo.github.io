@@ -28,13 +28,15 @@
 
           e.preventDefault();
 
-          embedYouTubeVideo(youTubeId);
+          toggleYouTubeOverlay();
+          addYouTubeVideo(youTubeId);
         });
 
         $('.youtube__overlay').on('click', function (e) {
           e.preventDefault();
 
-          $(this).toggleClass('youtube__overlay--active');
+          toggleYouTubeOverlay();
+          removeYouTubeVideo();
         });
       }
 
@@ -73,10 +75,16 @@
         return $this.append(resultsStr);
       }
 
-      function embedYouTubeVideo (id) {
-        return $('.youtube__overlay')
-          .html('<iframe class="youtube__iframe" width="720" height="405" src="https://www.youtube.com/embed/' + id + '?autoplay=1" frameborder="0" scrolling="no" allowfullscreen></iframe>')
-          .addClass('youtube__overlay--active');
+      function toggleYouTubeOverlay () {
+        return $('.youtube__overlay').toggleClass('youtube__overlay--active');
+      }
+
+      function addYouTubeVideo (id) {
+        return $('.youtube__overlay').html('<iframe class="youtube__iframe" width="720" height="405" src="https://www.youtube.com/embed/' + id + '?autoplay=1" frameborder="0" scrolling="no" allowfullscreen></iframe>');
+      }
+
+      function removeYouTubeVideo (id) {
+        return $('.youtube__overlay').html('');
       }
 
       init();
@@ -85,7 +93,8 @@
         init: init,
         getYouTubeFeed: getYouTubeFeed,
         addYouTubePlaylist: addYouTubePlaylist,
-        embedYouTubeVideo: embedYouTubeVideo
+        addYouTubeVideo: addYouTubeVideo,
+        removeYouTubeVideo: removeYouTubeVideo
       }
   
     });
