@@ -2,16 +2,104 @@
 <head>
   <title>Test YouTube</title>
   <style>
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
     body {
       font: 62.5% sans-serif;
-      background: #eee;
+      background: #000;
       padding: 0;
       margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .youtube {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .youtube__overlay {
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      display: none;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      cursor: pointer;
+    }
+
+    .youtube__overlay:before {
+      position: absolute;
+      top: 0;
+      right: 12px;
+      content: 'x';
+      color: #fff;
+      font-size: 2rem;
+    }
+
+    .youtube__overlay--active {
+      display: block;
+    }
+
+    .youtube__iframe {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    .youtube__cell {
+      position: relative;
+      float: left;
+      width: 33.333333%;
+    }
+
+    .youtube__cell a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .youtube__summary {
+      position: absolute;
+      bottom: 0;
+      display: none;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+    }
+
+    .youtube__cell:hover .youtube__summary {
+      display: block;
+    }
+
+    .youtube__title {
+      padding: 15px 20px;
+      margin: 0;
+      font-weight: normal;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .youtube__img {
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
-  <div class="youtube"></div>
+  <div class="youtube">
+    <div class="youtube__overlay"></div>
+  </div>
   <script type="text/javascript" src="js/lib/jquery-1.11.1.js"></script>
   <script type="text/javascript" src="js/youtube.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
