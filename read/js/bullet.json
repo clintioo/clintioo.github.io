@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Flesch Reading Ease",
+    "subtitle": "Subtitle",
+    "ranges": [30,60,70,90,100],
+    "rangesLabels": ["Best understood by university graduates", "Easily understood by 13 to 15 year old students", "Easily understood by 13 to 15 year old students", "Easily understood by an average 11 year old student", "Easily understood by an average 11 year old student"],
+    "measures": [14],
+    "markers": [100]
+  }
+]

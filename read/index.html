@@ -1,0 +1,210 @@
+<html>
+<head>
+<title>Mashape</title>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  .readability {
+    width: 600px;
+    margin: 20px auto;
+  }
+
+  .readability__label {
+    display: block;
+    margin: 0 0 10px;
+  }
+
+  .readability__textarea {
+    width: 600px;
+    height: 150px;
+    margin: 0 0 20px;
+  }
+
+  .readability__submit {
+    float: right;
+    display: block;
+    border: 0;
+    padding: 10px 20px;
+    margin: 0 0 20px;
+  }
+
+  .readability__cell {
+    margin: 0 0 10px;
+  }
+
+  .bullet { width: 600px; height: 70px; margin: 20px auto; font: 11px sans-serif; }
+  .bullet .tick line { stroke: #666; stroke-width: .5px; }
+  .bullet .range.s0 { fill: #ddd; }
+  .bullet .range.s1 { fill: #eee; }
+  .bullet .range.s2 { fill: #ddd; }
+  .bullet .range.s3 { fill: #eee; }
+  .bullet .range.s4 { fill: #ddd; }
+  .bullet .range.s0:hover,
+  .bullet .range.s2:hover,
+  .bullet .range.s4:hover { fill: #ccc; }
+  .bullet .measure.s0 { fill: #d31145; }
+  .bullet .measure.s1 { fill: #fb396d; }
+  .bullet .title { font-size: 14px; font-weight: bold; }
+  .bullet .subtitle { fill: #999; }
+
+  .measure { pointer-events: none; }
+
+  .tooltip { font-weight: bold; opacity: 0; }
+  .bullet .range.s0:hover ~ .tooltip.t0,
+  .bullet .range.s1:hover ~ .tooltip.t1,
+  .bullet .range.s2:hover ~ .tooltip.t2,
+  .bullet .range.s3:hover ~ .tooltip.t3,
+  .bullet .range.s4:hover ~ .tooltip.t4 { opacity: 1; }
+</style>
+</head>
+<body>
+  <div class="readability">
+    <form class="readability__form">
+      <label for="message" class="readability__label">Enter text</label>
+      <textarea class="readability__textarea" id="message"></textarea>
+      <input type="submit" class="readability__submit">
+    </form>
+    <div class="readability__graph"></div>
+    <div class="readability__table"></div>
+    <script id="readability__template" type="text/x-handlebars-template">
+      <h3>Raw data from API</h3>
+      <div class="readability__cell">Words</div>
+      <div class="readability__cell">{{WORDS}}</div>
+      <div class="readability__cell">Characters</div>
+      <div class="readability__cell">{{CHARACTERS}}</div>
+      <div class="readability__cell">Syllables</div>
+      <div class="readability__cell">{{SYLLABLES}}</div>
+      <div class="readability__cell">Coleman-Liau</div>
+      <div class="readability__cell">{{COLEMAN_LIAU}}</div>
+      <div class="readability__cell">Complex Words</div>
+      <div class="readability__cell">{{COMPLEXWORDS}}</div>
+      <div class="readability__cell">Flesch-Kincaid</div>
+      <div class="readability__cell">{{FLESCH_KINCAID}}</div>
+      <div class="readability__cell">Flesch-Reading</div>
+      <div class="readability__cell">{{FLESCH_READING}}</div>
+      <div class="readability__cell">Gunning-Fog</div>
+      <div class="readability__cell">{{GUNNING_FOG}}</div>
+      <div class="readability__cell">Sentences</div>
+      <div class="readability__cell">{{SENTENCES}}</div>
+      <div class="readability__cell">Smog</div>
+      <div class="readability__cell">{{SMOG}}</div>
+      <div class="readability__cell">Smog Index</div>
+      <div class="readability__cell">{{SMOG_INDEX}}</div>
+      <div class="readability__cell">Ari</div>
+      <div class="readability__cell">{{ARI}}</div>
+    </script>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="js/handlebars-v2.0.0.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="js/bullet.js"></script>
+  <script src="js/d3.tip.js"></script>
+  <script>
+    var app = function ($) {
+
+      var tooltip;
+
+      function init () {
+        $('form').on('submit', function (e) {
+          var text = $('textarea').val();
+
+          e.preventDefault();
+
+          if (text.length) {
+            runTest(text);
+          }
+        });
+      }
+
+      function runTest (text) {
+        return $.ajax({
+          url: 'https://ipeirotis-readability-metrics.p.mashape.com/getReadabilityMetrics',
+          type: 'POST',
+          data: {
+            text: text
+          },
+          datatype: 'json',
+          success: function (results) {
+            showResults(results);
+          },
+          error: function (err) {
+            showError(err);
+          },
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-Mashape-Authorization", "DIha08q5OnmshOi3CwTIT0Eo6tHfp1UvDD4jsnj2SKk0PGmcwF");
+          }
+        });
+      }
+
+      function showResults (results) {
+        var source = $("#readability__template").html(),
+            template = Handlebars.compile(source),
+            fleschReading = [
+              {
+                "title": "Flesch Reading Ease",
+                "subtitle": "Subtitle",
+                "ranges": [30,60,70,90,100],
+                "rangesLabels": ["Best understood by university graduates", "Easily understood by 13 to 15 year old students", "Easily understood by 13 to 15 year old students", "Easily understood by an average 11 year old student", "Easily understood by an average 11 year old student"],
+                "measures": [results.FLESCH_READING],
+                "markers": [100]
+              }
+            ];
+
+        $(".readability__graph").empty();
+
+        var margin = {top: 0, right: 10, bottom: 0, left: 160},
+            width = 600 - margin.left - margin.right,
+            height = 30 - margin.top - margin.bottom;
+
+        var chart = d3.bullet()
+            .width(width)
+            .height(height);
+
+        var svg = d3.select(".readability__graph")
+            .selectAll("svg")
+            .data(fleschReading)
+            .enter()
+            .append("svg")
+            .attr("class", "bullet")
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(chart);
+
+        var title = svg.append("g")
+            .style("text-anchor", "end")
+            .attr("transform", "translate(-6," + height / 2 + ")");
+
+        title.append("text")
+            .attr("class", "title")
+            .text(function(d) { return d.title; });
+
+        title.append("text")
+            .attr("class", "subtitle")
+            .attr("dy", "1em")
+            .text(function(d) { return d.subtitle; });
+
+        return $('.readability__table').html(template(results));
+      }
+
+      function showError (err) {
+        return $('.readability__table').html(err);
+      }
+
+      return {
+        init: init,
+        runTest: runTest,
+        showResults: showResults
+      };
+
+    }(jQuery);
+
+    $(document).ready(function () {
+      app.init();
+    });
+  </script>
+</body>
+</html>
