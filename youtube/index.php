@@ -1,6 +1,7 @@
 <html>
 <head>
   <title>Test YouTube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     * {
       -webkit-box-sizing: border-box;
