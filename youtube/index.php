@@ -55,6 +55,8 @@
       top: 40px;
       left: 0;
       right: 0;
+      width: 320px;
+      height: 180px;
       margin: auto;
     }
 
@@ -97,6 +99,11 @@
     }
 
     @media only screen and (min-width: 768px) {
+      .youtube__iframe {
+        width: 720px;
+        height: 405px;
+      }
+
       .youtube__cell {
         width: 33.333333%;
       }
