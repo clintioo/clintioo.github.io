@@ -60,7 +60,7 @@
     .youtube__cell {
       position: relative;
       float: left;
-      width: 33.333333%;
+      width: 100%;
     }
 
     .youtube__cell a {
@@ -93,6 +93,12 @@
     .youtube__img {
       width: 100%;
       height: auto;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .youtube__cell {
+        width: 33.333333%;
+      }
     }
   </style>
 </head>
