@@ -104,6 +104,10 @@
   <script type="text/javascript" src="js/youtube.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
   <script>
+    /**
+     *  https://www.facebook.com/dialog/pagetab?app_id=YOUR_APP_ID&next=YOUR_APP_HOSTED_URL
+     */
+
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '361939297298147',
