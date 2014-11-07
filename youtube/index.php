@@ -128,6 +128,11 @@
         xfbml      : true,
         version    : 'v2.1'
       });
+
+      FB.Canvas.setSize({
+        width: 810,
+        height: 2000
+      });
     };
 
     (function(d, s, id){
