@@ -190,9 +190,7 @@
         $(".readability__graph").empty();
 
         // Complex words
-        if (results.COMPLEXWORDCOUNT > 0) {
-          highlightComplexWords(readabilityText, results.COMPLEXWORDS);
-        }
+        highlightComplexWords(readabilityText, results.COMPLEXWORDS);
         
         // Chart
         var margin = {top: 0, right: 10, bottom: 0, left: 160},
