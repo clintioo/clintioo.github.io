@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Mashape</title>
+<title>Readability</title>
 <style>
   body {
     padding: 0;
@@ -18,10 +18,20 @@
     margin: 0 0 10px;
   }
 
-  .readability__textarea {
-    width: 600px;
+  .readability__text {
+    width: 584px;
     height: 150px;
+    padding: 8px;
     margin: 0 0 20px;
+    line-height: 24px;
+    border: 1px solid #ddd;
+    overflow-y: scroll;
+  }
+
+  .readability__complexword {
+    padding: 2px;
+    color: #d31145;
+    background: #eee;
   }
 
   .readability__submit {
@@ -30,6 +40,10 @@
     border: 0;
     padding: 10px 20px;
     margin: 0 0 20px;
+    background: #eee;
+    color: #000;
+    border: 1px solid #ddd;
+    text-decoration: none;
   }
 
   .readability__cell {
@@ -64,9 +78,9 @@
 <body>
   <div class="readability">
     <form class="readability__form">
-      <label for="message" class="readability__label">Enter text</label>
-      <textarea class="readability__textarea" id="message"></textarea>
-      <input type="submit" class="readability__submit">
+      <p class="readability__label">Enter text</p>
+      <div class="readability__text" id="message" contenteditable></div>
+      <a class="readability__submit" href="#">Run Test</a>
     </form>
     <div class="readability__graph"></div>
     <div class="readability__table"></div>
@@ -74,12 +88,12 @@
       <h3>Raw data from API</h3>
       <div class="readability__cell">Words</div>
       <div class="readability__cell">{{WORDS}}</div>
-      <div class="readability__cell">Characters</div>
-      <div class="readability__cell">{{CHARACTERS}}</div>
       <div class="readability__cell">Syllables</div>
       <div class="readability__cell">{{SYLLABLES}}</div>
       <div class="readability__cell">Coleman-Liau</div>
       <div class="readability__cell">{{COLEMAN_LIAU}}</div>
+      <div class="readability__cell">Complex Word Count</div>
+      <div class="readability__cell">{{COMPLEXWORDCOUNT}}</div>
       <div class="readability__cell">Complex Words</div>
       <div class="readability__cell">{{COMPLEXWORDS}}</div>
       <div class="readability__cell">Flesch-Kincaid</div>
@@ -90,8 +104,6 @@
       <div class="readability__cell">{{GUNNING_FOG}}</div>
       <div class="readability__cell">Sentences</div>
       <div class="readability__cell">{{SENTENCES}}</div>
-      <div class="readability__cell">Smog</div>
-      <div class="readability__cell">{{SMOG}}</div>
       <div class="readability__cell">Smog Index</div>
       <div class="readability__cell">{{SMOG_INDEX}}</div>
       <div class="readability__cell">Ari</div>
@@ -101,27 +113,47 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="js/handlebars-v2.0.0.js"></script>
   <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="js/textstatistics.js"></script>
   <script src="js/bullet.js"></script>
   <script src="js/d3.tip.js"></script>
   <script>
     var app = function ($) {
 
-      var tooltip;
+      var tooltip,
+        readabilityText,
+        $readabilityText = $('.readability__text');
 
       function init () {
-        $('form').on('submit', function (e) {
-          var text = $('textarea').val();
+        $('.readability__submit').on('click', function (e) {
+          readabilityText = $readabilityText.text();
 
           e.preventDefault();
 
-          if (text.length) {
-            runTest(text);
+          if (readabilityText.length) {
+            runTest(readabilityText);
           }
         });
       }
 
-      function runTest (text) {
-        return $.ajax({
+      function runTest (readabilityText) {
+        var results = {},
+          resultsComplex = {};
+
+        results.WORDS = textstatistics().wordCount(readabilityText);
+        results.SYLLABLES = textstatistics().syllableCount(readabilityText);
+        results.SENTENCES = textstatistics().sentenceCount(readabilityText);
+        results.FLESCH_KINCAID = textstatistics().fleschKincaidGradeLevel(readabilityText);
+        results.FLESCH_READING = textstatistics().fleschKincaidReadingEase(readabilityText);
+        results.COLEMAN_LIAU = textstatistics().colemanLiauIndex(readabilityText);
+        results.GUNNING_FOG = textstatistics().gunningFogScore(readabilityText);
+        results.SMOG_INDEX = textstatistics().smogIndex(readabilityText);
+        resultsComplex = textstatistics().wordsWithThreeSyllables(readabilityText);
+        results.COMPLEXWORDCOUNT = resultsComplex.longWordCount;
+        results.COMPLEXWORDS = resultsComplex.longWords;
+        results.ARI = textstatistics().automatedReadabilityIndex(readabilityText);
+
+        showResults(results);
+        /*return $.ajax({
           url: 'https://ipeirotis-readability-metrics.p.mashape.com/getReadabilityMetrics',
           type: 'POST',
           data: {
@@ -129,6 +161,7 @@
           },
           datatype: 'json',
           success: function (results) {
+            console.log(results);
             showResults(results);
           },
           error: function (err) {
@@ -137,7 +170,7 @@
           beforeSend: function (xhr) {
             xhr.setRequestHeader("X-Mashape-Authorization", "DIha08q5OnmshOi3CwTIT0Eo6tHfp1UvDD4jsnj2SKk0PGmcwF");
           }
-        });
+        });*/
       }
 
       function showResults (results) {
@@ -156,6 +189,12 @@
 
         $(".readability__graph").empty();
 
+        // Complex words
+        if (results.COMPLEXWORDCOUNT > 0) {
+          highlightComplexWords(readabilityText, results.COMPLEXWORDS);
+        }
+        
+        // Chart
         var margin = {top: 0, right: 10, bottom: 0, left: 160},
             width = 600 - margin.left - margin.right,
             height = 30 - margin.top - margin.bottom;
@@ -187,6 +226,7 @@
             .attr("dy", "1em")
             .text(function(d) { return d.subtitle; });
 
+        // Results table
         return $('.readability__table').html(template(results));
       }
 
@@ -194,10 +234,19 @@
         return $('.readability__table').html(err);
       }
 
+      function highlightComplexWords (readabilityText, complexWords) {
+        $.each(complexWords, function (i, v) {
+          readabilityText = readabilityText.replace(complexWords[i], '<span class="readability__complexword">' + complexWords[i] + '</span>');
+        });
+
+        return $readabilityText.html(readabilityText);
+      }
+
       return {
         init: init,
         runTest: runTest,
-        showResults: showResults
+        showResults: showResults,
+        highlightComplexWords: highlightComplexWords
       };
 
     }(jQuery);
