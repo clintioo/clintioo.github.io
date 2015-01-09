@@ -6,11 +6,18 @@
     padding: 0;
     margin: 0;
     font-family: sans-serif;
+    background: #f5f6f0;
   }
 
   .readability {
-    width: 600px;
+    width: 480px;
     margin: 20px auto;
+  }
+
+  .readability * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
   }
 
   .readability__label {
@@ -19,70 +26,73 @@
   }
 
   .readability__text {
-    width: 584px;
-    height: 150px;
+    width: 100%;
+    height: 380px;
     padding: 8px;
     margin: 0 0 20px;
-    line-height: 24px;
+    color: #5c5c5a;
+    background: #fff;
+    font-size: 15px;
+    line-height: 21px;
     border: 1px solid #ddd;
     overflow-y: scroll;
+    white-space: pre;
+  }
+
+  .readability__legend {
+    color: #5c5c5a;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 21px;
   }
 
   .readability__complexword {
-    padding: 2px;
     color: #d31145;
-    background: #eee;
+    text-decoration: line-through;
   }
 
   .readability__submit {
     float: right;
     display: block;
-    border: 0;
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    background: #eee;
-    color: #000;
-    border: 1px solid #ddd;
+    width: 84px;
+    height: 84px;
+    margin: 0 0 20px 20px;
+    color: #fff;
+    background: #e43463; /* Old browsers */
+    background: -moz-linear-gradient(top, #e43463 0%, #8b0027 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e43463), color-stop(100%,#8b0027)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #e43463 0%,#8b0027 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #e43463 0%,#8b0027 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #e43463 0%,#8b0027 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #e43463 0%,#8b0027 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e43463', endColorstr='#8b0027',GradientType=0 ); /* IE6-9 */
+    border: 3px solid #fff;
+    border-radius: 84px;
+    box-shadow: 1px 2px 2px 4px #a3a49f;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 78px;
+    text-align: center;
     text-decoration: none;
+  }
+
+  .readability__submit:hover {
+    background: #e43463;
   }
 
   .readability__cell {
     margin: 0 0 10px;
   }
-
-  .bullet { width: 600px; height: 70px; margin: 20px auto; font: 11px sans-serif; }
-  .bullet .tick line { stroke: #666; stroke-width: .5px; }
-  .bullet .range.s0 { fill: #ddd; }
-  .bullet .range.s1 { fill: #eee; }
-  .bullet .range.s2 { fill: #ddd; }
-  .bullet .range.s3 { fill: #eee; }
-  .bullet .range.s4 { fill: #ddd; }
-  .bullet .range.s0:hover,
-  .bullet .range.s2:hover,
-  .bullet .range.s4:hover { fill: #ccc; }
-  .bullet .measure.s0 { fill: #d31145; }
-  .bullet .measure.s1 { fill: #fb396d; }
-  .bullet .title { font-size: 14px; font-weight: bold; }
-  .bullet .subtitle { fill: #999; }
-
-  .measure { pointer-events: none; }
-
-  .tooltip { font-weight: bold; opacity: 0; }
-  .bullet .range.s0:hover ~ .tooltip.t0,
-  .bullet .range.s1:hover ~ .tooltip.t1,
-  .bullet .range.s2:hover ~ .tooltip.t2,
-  .bullet .range.s3:hover ~ .tooltip.t3,
-  .bullet .range.s4:hover ~ .tooltip.t4 { opacity: 1; }
 </style>
 </head>
 <body>
   <div class="readability">
-    <form class="readability__form">
-      <p class="readability__label">Enter text</p>
-      <div class="readability__text" id="message" contenteditable></div>
-      <a class="readability__submit" href="#">Run Test</a>
-    </form>
-    <div class="readability__graph"></div>
+    <h2>A quick and easy way to test the readability of your work.</h2>
+    <p class="readability__label">Enter Text:</p>
+    <div class="readability__text" id="message" contenteditable></div>
+    <a class="readability__submit" href="#">Check It</a>
+    <p class="readability__legend">The more complex words will have been crossed through in the results. Start by finding shorter options for those. The fewer syllables and complex words you have in your text, the easier it'll be to read. Remember to re-check your text after you've made your changes.</p>
+
     <div class="readability__table"></div>
     <script id="readability__template" type="text/x-handlebars-template">
       <h3>Raw data from API</h3>
@@ -112,33 +122,57 @@
   </div>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="js/handlebars-v2.0.0.js"></script>
-  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="js/jquery.ba-throttle-debounce.min.js"></script>
   <script src="js/textstatistics.js"></script>
-  <script src="js/bullet.js"></script>
-  <script src="js/d3.tip.js"></script>
   <script>
     var app = function ($) {
 
-      var tooltip,
-        readabilityText,
-        $readabilityText = $('.readability__text');
+      var readabilityText,
+        readabilityInput = document.getElementById('message'),
+        $readabilityInput = $(readabilityInput),
+        results = {},
+        resultsComplex = {};
 
       function init () {
         $('.readability__submit').on('click', function (e) {
-          readabilityText = $readabilityText.text();
-
           e.preventDefault();
+
+          getReadabilityText();
 
           if (readabilityText.length) {
             runTest(readabilityText);
           }
         });
+
+        /*$readabilityInput.filter('p, span').on('keypress', function (e) {
+          if (e.keyCode == 13) { //enter && shift
+            e.preventDefault(); //Prevent default browser behavior
+
+            if (window.getSelection) {
+              var selection = window.getSelection(),
+              range = selection.getRangeAt(0),
+              br = document.createElement("br"),
+              textNode = document.createTextNode("\u00a0"); //Passing " " directly will not end up being shown correctly
+              range.deleteContents();//required or not?
+              range.insertNode(br);
+              range.collapse(false);
+              range.insertNode(textNode);
+              range.selectNodeContents(textNode);
+
+              selection.removeAllRanges();
+              selection.addRange(range);
+              return false;
+            }
+          }
+        });*/
+
+      }
+
+      function getReadabilityText () {
+        return readabilityText = $readabilityInput.text();
       }
 
       function runTest (readabilityText) {
-        var results = {},
-          resultsComplex = {};
-
         results.WORDS = textstatistics().wordCount(readabilityText);
         results.SYLLABLES = textstatistics().syllableCount(readabilityText);
         results.SENTENCES = textstatistics().sentenceCount(readabilityText);
@@ -152,29 +186,11 @@
         results.COMPLEXWORDS = resultsComplex.longWords;
         results.ARI = textstatistics().automatedReadabilityIndex(readabilityText);
 
-        showResults(results);
-        /*return $.ajax({
-          url: 'https://ipeirotis-readability-metrics.p.mashape.com/getReadabilityMetrics',
-          type: 'POST',
-          data: {
-            text: text
-          },
-          datatype: 'json',
-          success: function (results) {
-            console.log(results);
-            showResults(results);
-          },
-          error: function (err) {
-            showError(err);
-          },
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("X-Mashape-Authorization", "DIha08q5OnmshOi3CwTIT0Eo6tHfp1UvDD4jsnj2SKk0PGmcwF");
-          }
-        });*/
+        return showResults(results);
       }
 
       function showResults (results) {
-        var source = $("#readability__template").html(),
+        var source = $('#readability__template').html(),
             template = Handlebars.compile(source),
             fleschReading = [
               {
@@ -187,42 +203,10 @@
               }
             ];
 
-        $(".readability__graph").empty();
+        $('.readability__graph').empty();
 
         // Complex words
         highlightComplexWords(readabilityText, results.COMPLEXWORDS);
-        
-        // Chart
-        var margin = {top: 0, right: 10, bottom: 0, left: 160},
-            width = 600 - margin.left - margin.right,
-            height = 30 - margin.top - margin.bottom;
-
-        var chart = d3.bullet()
-            .width(width)
-            .height(height);
-
-        var svg = d3.select(".readability__graph")
-            .selectAll("svg")
-            .data(fleschReading)
-            .enter()
-            .append("svg")
-            .attr("class", "bullet")
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(chart);
-
-        var title = svg.append("g")
-            .style("text-anchor", "end")
-            .attr("transform", "translate(-6," + height / 2 + ")");
-
-        title.append("text")
-            .attr("class", "title")
-            .text(function(d) { return d.title; });
-
-        title.append("text")
-            .attr("class", "subtitle")
-            .attr("dy", "1em")
-            .text(function(d) { return d.subtitle; });
 
         // Results table
         return $('.readability__table').html(template(results));
@@ -233,11 +217,22 @@
       }
 
       function highlightComplexWords (readabilityText, complexWords) {
+        var readabilityHtml = $readabilityInput.html(),
+          cwSpanOpenRegex = new RegExp('<span class="readability__complexword">', 'g'),
+          cwSpanCloseRegex = new RegExp('</span>', 'g');
+
+        // Remove old highlights
+        readabilityHtml = readabilityHtml.replace(cwSpanOpenRegex, '');
+        readabilityHtml = readabilityHtml.replace(cwSpanCloseRegex, '');
+
+        // Add new highlights
         $.each(complexWords, function (i, v) {
-          readabilityText = readabilityText.replace(complexWords[i], '<span class="readability__complexword">' + complexWords[i] + '</span>');
+          var cwRegex = new RegExp(complexWords[i], 'g');
+
+          readabilityHtml = readabilityHtml.replace(cwRegex, '<span class="readability__complexword">' + complexWords[i] + '</span>');
         });
 
-        return $readabilityText.html(readabilityText);
+        $readabilityInput.html(readabilityHtml);
       }
 
       return {
