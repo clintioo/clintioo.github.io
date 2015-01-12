@@ -174,7 +174,7 @@
         height: 2000
       });
 
-      var fbAuthResp = FB.getAuthResponse();
+      var fbAuthResp = FB.getLoginStatus();
       console.log(fbAuthResp);
     };
 
