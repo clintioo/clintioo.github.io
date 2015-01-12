@@ -140,9 +140,9 @@
         return base64_decode(strtr($input, '-_', '+/'));
       }*/
 
-      echo "Test 1";
+      echo "Test 2";
 
-      echo $_GET('app_data');
+      //echo $_GET('app_data');
 
       /*$signed_request = $facebook->getSignedRequest();
       $app_data = '';
