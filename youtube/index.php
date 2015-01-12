@@ -114,7 +114,7 @@
   <div class="youtube">
     <?php
 
-      function parse_signed_request($signed_request, $secret) {
+      /*function parse_signed_request($signed_request, $secret) {
         list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
 
         // decode the data
@@ -147,7 +147,7 @@
         $app_data = $signed_request["app_data"];
 
         echo "." . $app_data;
-      }
+      }*/
     ?>
 
     <div class="youtube__overlay"></div>
