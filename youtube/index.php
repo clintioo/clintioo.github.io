@@ -138,7 +138,9 @@
 
       function base64_url_decode($input) {
         return base64_decode(strtr($input, '-_', '+/'));
-      }
+      }*/
+
+      echo "Test 1";
 
       $signed_request = $facebook->getSignedRequest();
       $app_data = '';
@@ -147,7 +149,7 @@
         $app_data = $signed_request["app_data"];
 
         echo "." . $app_data;
-      }*/
+      }
     ?>
 
     <div class="youtube__overlay"></div>
