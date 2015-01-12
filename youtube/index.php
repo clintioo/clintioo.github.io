@@ -142,8 +142,6 @@
 
       echo "Test 2";
 
-      echo "." . $_GET('app_data');
-
       /*$signed_request = $facebook->getSignedRequest();
       $app_data = '';
 
@@ -175,6 +173,9 @@
         width: 810,
         height: 2000
       });
+
+      var fbAuthResp = FB.getAuthResponse();
+      console.log(fbAuthResp);
     };
 
     (function(d, s, id){
