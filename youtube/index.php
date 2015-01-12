@@ -143,7 +143,7 @@
       $req = $_REQUEST;
       $signed_request = parse_signed_request($req[signed_request], 'b76b75e74863b22ffd73679e5d8a0912');
 
-      print_r $signed_request;
+      echo $signed_request;
       //$signed_request['app_data'] = MYDATA;
 
     ?>
