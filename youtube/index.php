@@ -142,14 +142,16 @@
 
       echo "Test 1";
 
-      $signed_request = $facebook->getSignedRequest();
+      echo $_GET('app_data');
+
+      /*$signed_request = $facebook->getSignedRequest();
       $app_data = '';
 
       if (isset($signed_request["app_data"])) {
         $app_data = $signed_request["app_data"];
 
         echo "." . $app_data;
-      }
+      }*/
     ?>
 
     <div class="youtube__overlay"></div>
