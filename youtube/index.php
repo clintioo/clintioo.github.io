@@ -113,7 +113,6 @@
 <body>
   <div class="youtube">
     <?php
-
       function parse_signed_request($signed_request, $secret) {
         list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
 
@@ -140,14 +139,10 @@
         return base64_decode(strtr($input, '-_', '+/'));
       }
 
-      $req = $_REQUEST;
-      $signed_request = parse_signed_request($req[signed_request], 'b76b75e74863b22ffd73679e5d8a0912');
+      $signed_request = parse_signed_request($_REQUEST[signed_request], 'b76b75e74863b22ffd73679e5d8a0912');
+      $app_data = $signed_request['app_data'];
 
-      $data = implode(",", $signed_request);
-      echo $data;
-      echo "app data: " . $signed_request['app_data'];
-      //$signed_request['app_data'] = MYDATA;
-
+      echo $app_data;
     ?>
 
     <div class="youtube__overlay"></div>
@@ -170,10 +165,6 @@
       FB.Canvas.setSize({
         width: 810,
         height: 2000
-      });
-
-      FB.getLoginStatus(function (response) {
-        console.log(response);
       });
     };
 
