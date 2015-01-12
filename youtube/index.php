@@ -145,6 +145,9 @@
 
       $data = implode(",", $signed_request);
       echo $data;
+      echo "0 " . $data[0];
+      echo "1 " . $data[1];
+      echo "2 " . $data[2];
       //$signed_request['app_data'] = MYDATA;
 
     ?>
