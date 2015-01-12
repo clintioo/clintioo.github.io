@@ -176,7 +176,7 @@
 
       FB.getLoginStatus(function (response) {
         console.log(response);
-      }
+      });
     };
 
     (function(d, s, id){
