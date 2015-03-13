@@ -25,8 +25,10 @@
 			//.replace(/[ ]*([\.])/,". ")				// Pad sentence terminators
 			//.replace(/\s+/," ")						// Remove multiple spaces
 			//.replace(/\s+$/,"");					// Strip trailing whitespace
-			
-		text += "."; // Add final terminator, just in case it's missing.
+
+		if (text.slice(-1) !== '.') {
+			text += "."; // Add final terminator, just in case it's missing.
+		}
 		
 		return text;
 	}

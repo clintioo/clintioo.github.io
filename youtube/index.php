@@ -113,7 +113,7 @@
 <body>
   <div class="youtube">
     <?php
-      function parse_signed_request($signed_request, $secret) {
+      function parse_signed_request ($signed_request, $secret) {
         list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
 
         // decode the data
@@ -135,7 +135,7 @@
         return $data;
       }
 
-      function base64_url_decode($input) {
+      function base64_url_decode ($input) {
         return base64_decode(strtr($input, '-_', '+/'));
       }
 

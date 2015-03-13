@@ -72,7 +72,11 @@ var app = function ($, window, undefined) {
         }
         
         // Update active navigation class
-        $('.offers nav li').eq(id - 1).addClass('active').siblings('li').removeClass('active');
+        $('.offers nav li')
+          .eq(id - 1)
+          .addClass('active')
+          .siblings('li')
+          .removeClass('active');
 
         return $('.offers__wrap').html(dealStr);
       }

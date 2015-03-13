@@ -1,252 +1,95 @@
-<html>
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="en"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html><!--<![endif]-->
 <head>
-<title>Readability</title>
-<style>
-  body {
-    padding: 0;
-    margin: 0;
-    font-family: sans-serif;
-    background: #f5f6f0;
-  }
-
-  .readability {
-    width: 480px;
-    margin: 20px auto;
-  }
-
-  .readability * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  .readability__label {
-    display: block;
-    margin: 0 0 10px;
-  }
-
-  .readability__text {
-    width: 100%;
-    height: 380px;
-    padding: 8px;
-    margin: 0 0 20px;
-    color: #5c5c5a;
-    background: #fff;
-    font-size: 15px;
-    line-height: 21px;
-    border: 1px solid #ddd;
-    overflow-y: scroll;
-    white-space: pre;
-  }
-
-  .readability__legend {
-    color: #5c5c5a;
-    font-style: italic;
-    font-size: 15px;
-    line-height: 21px;
-  }
-
-  .readability__complexword {
-    color: #d31145;
-    text-decoration: line-through;
-  }
-
-  .readability__submit {
-    float: right;
-    display: block;
-    width: 84px;
-    height: 84px;
-    margin: 0 0 20px 20px;
-    color: #fff;
-    background: #e43463; /* Old browsers */
-    background: -moz-linear-gradient(top, #e43463 0%, #8b0027 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e43463), color-stop(100%,#8b0027)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #e43463 0%,#8b0027 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #e43463 0%,#8b0027 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #e43463 0%,#8b0027 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #e43463 0%,#8b0027 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e43463', endColorstr='#8b0027',GradientType=0 ); /* IE6-9 */
-    border: 3px solid #fff;
-    border-radius: 84px;
-    box-shadow: 1px 2px 2px 4px #a3a49f;
-    font-weight: bold;
-    font-size: 17px;
-    line-height: 78px;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .readability__submit:hover {
-    background: #e43463;
-  }
-
-  .readability__cell {
-    margin: 0 0 10px;
-  }
-</style>
+  <title>Readability</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--[if lte IE 8 ]><script src="js/html5shiv.min.js"></script><![endif]-->
+  <link rel="stylesheet" type="text/css" href="css/readability.css">
+  <!--[if lte IE 8 ]><link rel="stylesheet" type="text/css" href="css/readability-less-than-ie9.css"><![endif]-->
 </head>
 <body>
-  <div class="readability">
-    <h2>A quick and easy way to test the readability of your work.</h2>
-    <p class="readability__label">Enter Text:</p>
-    <div class="readability__text" id="message" contenteditable></div>
-    <a class="readability__submit" href="#">Check It</a>
-    <p class="readability__legend">The more complex words will have been crossed through in the results. Start by finding shorter options for those. The fewer syllables and complex words you have in your text, the easier it'll be to read. Remember to re-check your text after you've made your changes.</p>
-
-    <div class="readability__table"></div>
-    <script id="readability__template" type="text/x-handlebars-template">
-      <h3>Raw data from API</h3>
-      <div class="readability__cell">Words</div>
-      <div class="readability__cell">{{WORDS}}</div>
-      <div class="readability__cell">Syllables</div>
-      <div class="readability__cell">{{SYLLABLES}}</div>
-      <div class="readability__cell">Coleman-Liau</div>
-      <div class="readability__cell">{{COLEMAN_LIAU}}</div>
-      <div class="readability__cell">Complex Word Count</div>
-      <div class="readability__cell">{{COMPLEXWORDCOUNT}}</div>
-      <div class="readability__cell">Complex Words</div>
-      <div class="readability__cell">{{COMPLEXWORDS}}</div>
-      <div class="readability__cell">Flesch-Kincaid</div>
-      <div class="readability__cell">{{FLESCH_KINCAID}}</div>
-      <div class="readability__cell">Flesch-Reading</div>
-      <div class="readability__cell">{{FLESCH_READING}}</div>
-      <div class="readability__cell">Gunning-Fog</div>
-      <div class="readability__cell">{{GUNNING_FOG}}</div>
-      <div class="readability__cell">Sentences</div>
-      <div class="readability__cell">{{SENTENCES}}</div>
-      <div class="readability__cell">Smog Index</div>
-      <div class="readability__cell">{{SMOG_INDEX}}</div>
-      <div class="readability__cell">Ari</div>
-      <div class="readability__cell">{{ARI}}</div>
-    </script>
+  <header class="header clear">
+    <a class="header__logo" href="/">AIA The Real Life Company</a>
+    <h1>Readability Tool</h1>
+    <a class="header__help header__help--howitworks" href="#" rel="lightbox">How it works</a>
+    <a class="header__help header__help--thesaurus" href="#">AIA thesaurus</a>
+  </header>
+  <div class="container clear">
+    <main class="main">
+      <section class="tester">
+        <div class="tester__textarea tester__textarea--placeholder" id="tester__textarea" contenteditable>
+          <strong>START WRITING OR COPY IN HERE<br>THEN TAP 'CHECK IT'</strong>
+          <hr>
+          HOW IT WORKS
+          <br>
+          <ol>
+            <li>The more complex words will have been crossed through - start by finding shorter options for those.</li>
+            <li>The fewer syllables and complex words you have in your text, the easier it'll be to read.</li>
+            <li>Remember to re-check your text after you've made your changes!</li>
+            <li>Copy all and paste wherever needed. However remember to use a spellchecker before you publish!</li>
+          </ol>
+        </div>
+        <a class="tester__submit" href="#">Check It</a>
+        <p class="tester__legend">A quick and easy way to test the readability of your work.</p>
+      </section>
+    </main>
+    <aside class="sidebar">
+      <section class="score score--sidebar score--hidden">
+        <div class="score__results"></div>
+        <script id="score__template" type="text/x-handlebars-template">
+          <h2>Your score: <span>{{fleschReadingScoreSummary}}</span></h2>
+          <div class="score__result score__result--large score__result--color {{fleschReadingScoreClass}}">{{fleschReadingScoreText}}</div>
+          <div class="score__result score__result--large"><span>{{fleschReading}}</span>Reading Ease</div>
+          <div class="score__result score__result--large"><span>{{fleschKincaid}}</span>Grade</div>
+          <hr>
+          <div class="score__result score__result--readingease">
+            <h3>Reading Ease</h3>
+            <p>The higher your Reading Ease, the easier it is to read your writing.</p>
+          </div>
+          <div class="score__result score__result--gradelevel">
+            <h3>Grade: {{fleschKincaid}}</h3>
+            <p>The lower your Grade Level, the more people will understand your writing.</p>
+          </div>
+        </script>
+      </section>
+    </aside>
   </div>
+  <footer class="footer clear">
+    <ul>
+      <li><a href="#">Terms of Use</a></li>
+      <li><a href="#">Privacy Statement</a></li>
+      <li>Copyright &reg; 2015, AIA Group Limited and its subsidiaries. All rights reserved</li>
+    </ul>
+  </footer>
+  <div class="lightbox lightbox--hidden">
+    <div class="lightbox__wrap">
+      <div class="lightbox__close">X</div>
+      <section class="help">
+        <img class="help__makeiteasy" src="img/icon/makeiteasy.png" alt="Make it easy">
+        <p>Here's a quick and easy way to make sure your words are easy to read. Just copy and paste the text you want to check into the space provided, then click "Check It" and wait for your results.</p>
+        <p>How to read your results:</p>
+        <p>The higher your <strong>Reading Ease</strong>, the easier it is to read your writing.</p>
+        <p>The lower your <strong>Grade Level</strong>, the more people will understand your writing.</p>
+        <div class="score score--help">
+          <ul class="score__legend">
+            <li><div class="score__result score__result--large score__result--color score__result--green">Green</div><span>Good to go.</span></li>
+            <li><div class="score__result score__result--large score__result--color score__result--yellow">Yellow</div><span>Some work to be done.</span></li>
+            <li><div class="score__result score__result--large score__result--color score__result--red">Red</div><span>Way too complicated.</span></li>
+          </ul>
+        </div>
+        <div class="help__legend"><span>Ideal scores:</span> <strong>Reading ease: 70+</strong> &nbsp;&nbsp; | &nbsp;&nbsp; Grade level: 5-7</div>
+      </section>
+    </div>
+  </div>
+  <!--[if lte IE 8 ]>
+    <script src="js/foreach-polyfill.js"></script>
+    <script src="js/filter-polyfill.js"></script>
+  <![endif]-->
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="js/handlebars-v2.0.0.js"></script>
-  <script src="js/jquery.ba-throttle-debounce.min.js"></script>
   <script src="js/textstatistics.js"></script>
-  <script>
-    var app = function ($) {
-
-      var readabilityText,
-        readabilityInput = document.getElementById('message'),
-        $readabilityInput = $(readabilityInput),
-        results = {},
-        resultsComplex = {};
-
-      function init () {
-        $('.readability__submit').on('click', function (e) {
-          e.preventDefault();
-
-          getReadabilityText();
-
-          if (readabilityText.length) {
-            runTest(readabilityText);
-          }
-        });
-
-        /*$readabilityInput.filter('p, span').on('keypress', function (e) {
-          if (e.keyCode == 13) { //enter && shift
-            e.preventDefault(); //Prevent default browser behavior
-
-            if (window.getSelection) {
-              var selection = window.getSelection(),
-              range = selection.getRangeAt(0),
-              br = document.createElement("br"),
-              textNode = document.createTextNode("\u00a0"); //Passing " " directly will not end up being shown correctly
-              range.deleteContents();//required or not?
-              range.insertNode(br);
-              range.collapse(false);
-              range.insertNode(textNode);
-              range.selectNodeContents(textNode);
-
-              selection.removeAllRanges();
-              selection.addRange(range);
-              return false;
-            }
-          }
-        });*/
-
-      }
-
-      function getReadabilityText () {
-        return readabilityText = $readabilityInput.text();
-      }
-
-      function runTest (readabilityText) {
-        results.WORDS = textstatistics().wordCount(readabilityText);
-        results.SYLLABLES = textstatistics().syllableCount(readabilityText);
-        results.SENTENCES = textstatistics().sentenceCount(readabilityText);
-        results.FLESCH_KINCAID = textstatistics().fleschKincaidGradeLevel(readabilityText);
-        results.FLESCH_READING = textstatistics().fleschKincaidReadingEase(readabilityText);
-        results.COLEMAN_LIAU = textstatistics().colemanLiauIndex(readabilityText);
-        results.GUNNING_FOG = textstatistics().gunningFogScore(readabilityText);
-        results.SMOG_INDEX = textstatistics().smogIndex(readabilityText);
-        resultsComplex = textstatistics().wordsWithThreeSyllables(readabilityText);
-        results.COMPLEXWORDCOUNT = resultsComplex.longWordCount;
-        results.COMPLEXWORDS = resultsComplex.longWords;
-        results.ARI = textstatistics().automatedReadabilityIndex(readabilityText);
-
-        return showResults(results);
-      }
-
-      function showResults (results) {
-        var source = $('#readability__template').html(),
-            template = Handlebars.compile(source),
-            fleschReading = [
-              {
-                "title": "Flesch Reading Ease",
-                "subtitle": "Subtitle",
-                "ranges": [30,60,70,90,100],
-                "rangesLabels": ["Best understood by university graduates", "Easily understood by 13 to 15 year old students", "Easily understood by 13 to 15 year old students", "Easily understood by an average 11 year old student", "Easily understood by an average 11 year old student"],
-                "measures": [results.FLESCH_READING],
-                "markers": [100]
-              }
-            ];
-
-        $('.readability__graph').empty();
-
-        // Complex words
-        highlightComplexWords(readabilityText, results.COMPLEXWORDS);
-
-        // Results table
-        return $('.readability__table').html(template(results));
-      }
-
-      function showError (err) {
-        return $('.readability__table').html(err);
-      }
-
-      function highlightComplexWords (readabilityText, complexWords) {
-        var readabilityHtml = $readabilityInput.html(),
-          cwSpanOpenRegex = new RegExp('<span class="readability__complexword">', 'g'),
-          cwSpanCloseRegex = new RegExp('</span>', 'g');
-
-        // Remove old highlights
-        readabilityHtml = readabilityHtml.replace(cwSpanOpenRegex, '');
-        readabilityHtml = readabilityHtml.replace(cwSpanCloseRegex, '');
-
-        // Add new highlights
-        $.each(complexWords, function (i, v) {
-          var cwRegex = new RegExp(complexWords[i], 'g');
-
-          readabilityHtml = readabilityHtml.replace(cwRegex, '<span class="readability__complexword">' + complexWords[i] + '</span>');
-        });
-
-        $readabilityInput.html(readabilityHtml);
-      }
-
-      return {
-        init: init,
-        runTest: runTest,
-        showResults: showResults,
-        highlightComplexWords: highlightComplexWords
-      };
-
-    }(jQuery);
-
-    $(document).ready(function () {
-      app.init();
-    });
-  </script>
+  <script src="js/readability.js"></script>
 </body>
 </html>

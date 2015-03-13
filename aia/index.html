@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if IE 9 ]><html class="ie ie9" lang="en"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html><!--<![endif]-->
+<head>
+  <title>AIA Real Life Language Score</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="page">
+  <meta property="og:title" content="AIA Real Life Language Score">
+  <meta property="og:image" content="http://aiareadabilitytool.herokuapp.com/img/icon/72x72.png">
+  <meta property="og:description" content="A quick and easy way to test the readability of your work.">
+  <!--[if lte IE 8 ]><script src="js/html5shiv.min.js"></script><![endif]-->
+  <link rel="stylesheet" type="text/css" href="css/readability.min.css">
+  <!--[if lte IE 8 ]><link rel="stylesheet" type="text/css" href="css/readability-less-than-ie9.min.css"><![endif]-->
+</head>
+<body>
+  <header class="header clear">
+    <a class="header__logo sprite sprite--logo" href="/">AIA The Real Life Company</a>
+    <h1 class="sprite sprite--wordmark">Real Life Language Score</h1>
+    <a class="header__navtoggle sprite sprite--menu" href="#header__nav">Menu</a>
+    <nav id="header__nav" class="header__nav header__nav--hidden">
+      <ul>
+        <li><a class="header__navitem header__navitem--howitworks" href="#howitworks" rel="lightbox">What your scores mean</a></li>
+        <li><a class="header__navitem header__navitem--thesaurus" href="#thesaurus" rel="lightbox">Simple word finder</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container clear">
+    <main class="main">
+      <section class="tester">
+        <div class="tester__textarea tester__textarea--placeholder" id="tester__textarea" contenteditable>
+          <strong>WRITE OR COPY YOUR TEXT INTO HERE,<br>THEN TAP 'CHECK IT'</strong>
+          <hr>
+          HOW IT WORKS
+          <br>
+          <ol>
+            <li>The more complex words will have been crossed through - start by finding shorter options for those.</li>
+            <li>The fewer syllables and complex words you have in your text, the easier it'll be to read.</li>
+            <li>Remember to re-check your text after you've made your changes!</li>
+            <li>Copy all and paste wherever needed. However remember to use a spellchecker before you publish!</li>
+          </ol>
+        </div>
+        <a class="tester__submit" href="#">Check It</a>
+        <p class="tester__legend">A quick and easy way to test the readability of your work.</p>
+      </section>
+    </main>
+    <aside class="sidebar">
+      <section class="score score--sidebar score--hidden">
+        <div class="score__results"></div>
+        <div id="yj-share-button" class="sprite sprite--wave"></div>
+        <script id="score__template" type="text/x-handlebars-template">
+          <h2>Your score: <span>{{fleschReadingScoreSummary}}</span></h2>
+          <div class="score__result score__result--large score__result--first score__result--color {{fleschReadingScoreClass}}">{{fleschReadingScoreText}}</div>
+          <div class="score__result score__result--large"><span>{{fleschReading}}</span>Reading Ease</div>
+          <div class="score__result score__result--large"><span>{{fleschKincaid}}</span>Grade</div>
+          <div class="score__result score__result--readingease">
+            <h3>Reading Ease</h3>
+            <p class="score__description">The higher your Reading Ease, the easier it is to read your writing.</p>
+            <div class="score__range">
+              <div class="score__rangemiddle"></div>
+              <div class="score__rangemedian"></div>
+              <div class="score__rangetotal" style="margin-left: {{fleschReadingRangePerc}}%">{{fleschReading}}</div>
+            </div>
+          </div>
+          <div class="score__result score__result--gradelevel">
+            <h3>Grade: {{fleschKincaid}}</h3>
+            <p class="score__description">The lower your Grade Level, the more people will understand your writing.</p>
+            <div class="score__table">
+              <div class="score__tablecell">Grade</div>
+              <div class="score__tablecell">04</div>
+              <div class="score__tablecell">Age</div>
+              <div class="score__tablecell">9-10</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell score__tablecell--highlight">05*</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell score__tablecell--highlight">10-11*</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell score__tablecell--highlight">06*</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell score__tablecell--highlight">11-12*</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">07</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">12-13</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">08</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">13-14</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">09</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">14-15</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">10</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">15-16</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">11</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">16-17</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">12</div>
+              <div class="score__tablecell">&nbsp;</div>
+              <div class="score__tablecell">17-18</div>
+            </div>
+            <p class="score__tablelegend">* Ideal AIA grade</p>
+          </div>
+        </script>
+      </section>
+    </aside>
+  </div>
+  <footer class="footer clear">
+    <ul>
+      <li><a href="#">Terms of Use</a></li>
+      <li><a href="#">Privacy Statement</a></li>
+      <li>Copyright &reg; 2015, AIA Group Limited and its subsidiaries. All rights reserved</li>
+    </ul>
+  </footer>
+  <div class="lightbox lightbox--hidden">
+    <div class="lightbox__wrap">
+      <div class="lightbox__close sprite sprite--cross">X</div>
+      <section class="help help--hidden" id="howitworks">
+        <div class="help__makeiteasy sprite sprite--makeiteasy" alt="Make it easy"></div>
+        <h2 class="help__highlight help__highlight--howitworks">What Your Scores Mean</h2>
+        <p>Once you've done your Read Easy test, you'll see that it'll have an overall grade colour. Your piece will also have two scores - one for Reading Ease and one for your Grade level.</p>
+        <p>Here's how to read those results:</p>
+        <p>1. The higher your Reading Ease, the easier it is to read your writing.</p>
+        <p>2. The lower your Grade level, the more people will understand your writing.</p>
+        <div class="score score--help">
+          <ul class="score__legend">
+            <li><div class="score__result score__result--large score__result--color score__result--green">Green</div><span>Good to go.</span></li>
+            <li><div class="score__result score__result--large score__result--color score__result--yellow">Yellow</div><span>Some work to be done.</span></li>
+            <li><div class="score__result score__result--large score__result--color score__result--red">Red</div><span>Way too complicated.</span></li>
+          </ul>
+        </div>
+        <h2>Ideal Score</h2>
+        <div class="score__result score__result--large score__result--first"><span>70+</span>Reading Ease</div>
+        <div class="score__result score__result--large"><span>5-6</span>Grade</div>
+      </section>
+      <section class="help help--hidden" id="thesaurus">
+        <div class="help__makeiteasy sprite sprite--makeiteasy" alt="Make it easy"></div>
+        <h2 class="help__highlight help__highlight--thesaurus">Simple Word Finder</h2>
+        <p>Using simple words can make all our communications easier for our customers to understand. We have included a dictionary of some of the words that are often used at AIA, and some simpler words with the same meaning, so we can simplify our everyday communications.</p>
+        <table class="help__table">
+          <tr>
+            <th>From</th>
+            <th>To</th>
+          </tr>
+          <tr>
+            <td>Accumulate</td>
+            <td>Grow</td>
+          </tr>
+          <tr>
+            <td>Additional</td>
+            <td>Extra</td>
+          </tr>
+          <tr>
+            <td>Advise</td>
+            <td>Tell/Recommend</td>
+          </tr>
+          <tr>
+            <td>Alternative</td>
+            <td>Other</td>
+          </tr>
+          <tr>
+            <td>Amortised</td>
+            <td>Paid odd over time</td>
+          </tr>
+          <tr>
+            <td>Annuity</td>
+            <td>Regular payment</td>
+          </tr>
+          <tr>
+            <td>Appetite for risk</td>
+            <td>How much risk you're willing to take</td>
+          </tr>
+          <tr>
+            <td>Authorised representative</td>
+            <td>Financial advisor/Agent/AIA employee</td>
+          </tr>
+          <tr>
+            <td>Branch office</td>
+            <td>Office</td>
+          </tr>
+          <tr>
+            <td>Cease paying premiums</td>
+            <td>Stop making payments</td>
+          </tr>
+          <tr>
+            <td>Complete</td>
+            <td>Fill in</td>
+          </tr>
+          <tr>
+            <td>Comply with</td>
+            <td>Keep to</td>
+          </tr>
+          <tr>
+            <td>Concerning</td>
+            <td>About</td>
+          </tr>
+          <tr>
+            <td>Concurrent</td>
+            <td>At the same time</td>
+          </tr>
+          <tr>
+            <td>Conditional</td>
+            <td>Depends on</td>
+          </tr>
+          <tr>
+            <td>Conducting an investigation</td>
+            <td>Looking into</td>
+          </tr>
+          <tr>
+            <td>Deem</td>
+            <td>Believe/Consider</td>
+          </tr>
+          <tr>
+            <td>Distributed</td>
+            <td>Given</td>
+          </tr>
+          <tr>
+            <td>Duration of</td>
+            <td>Length</td>
+          </tr>
+          <tr>
+            <td>Enquiries</td>
+            <td>Questions</td>
+          </tr>
+          <tr>
+            <td>Ensure</td>
+            <td>Make sure</td>
+          </tr>
+          <tr>
+            <td>Faciliate</td>
+            <td>Help</td>
+          </tr>
+          <tr>
+            <td>Forthwith</td>
+            <td>From now on</td>
+          </tr>
+          <tr>
+            <td>Further clarification</td>
+            <td>More information</td>
+          </tr>
+          <tr>
+            <td>In order to</td>
+            <td>To</td>
+          </tr>
+          <tr>
+            <td>Increase the value of your capital</td>
+            <td>Grow your money</td>
+          </tr>
+          <tr>
+            <td>Indemnity</td>
+            <td>Amount paid</td>
+          </tr>
+          <tr>
+            <td>Indicate</td>
+            <td>Say</td>
+          </tr>
+          <tr>
+            <td>Inform</td>
+            <td>Tell</td>
+          </tr>
+          <tr>
+            <td>Inquire</td>
+            <td>Ask</td>
+          </tr>
+          <tr>
+            <td>Maturity of your policy</td>
+            <td>End of your policy</td>
+          </tr>
+          <tr>
+            <td>Maximum</td>
+            <td>Most</td>
+          </tr>
+          <tr>
+            <td>Modify</td>
+            <td>Change</td>
+          </tr>
+          <tr>
+            <td>Numerous</td>
+            <td>Many</td>
+          </tr>
+          <tr>
+            <td>Ongoing</td>
+            <td>Continuing</td>
+          </tr>
+          <tr>
+            <td>Optimal</td>
+            <td>Best</td>
+          </tr>
+          <tr>
+            <td>Paying your premiums</td>
+            <td>Making your payments</td>
+          </tr>
+          <tr>
+            <td>Policy contract</td>
+            <td>Policy</td>
+          </tr>
+          <tr>
+            <td>Policy has been in force</td>
+            <td>If you have owned your policy/Policy has been active</td>
+          </tr>
+          <tr>
+            <td>Prior to</td>
+            <td>Before</td>
+          </tr>
+          <tr>
+            <td>Privileges</td>
+            <td>Benefits</td>
+          </tr>
+          <tr>
+            <td>Proceed</td>
+            <td>Go ahead</td>
+          </tr>
+          <tr>
+            <td>Provide</td>
+            <td>Give/Offer</td>
+          </tr>
+          <tr>
+            <td>Regarding</td>
+            <td>About</td>
+          </tr>
+          <tr>
+            <td>Render</td>
+            <td>Give</td>
+          </tr>
+          <tr>
+            <td>Request</td>
+            <td>Ask</td>
+          </tr>
+          <tr>
+            <td>Rider</td>
+            <td>Optional add-on to your insurance policy</td>
+          </tr>
+          <tr>
+            <td>Select</td>
+            <td>Choose</td>
+          </tr>
+          <tr>
+            <td>Servicing agent</td>
+            <td>Agent</td>
+          </tr>
+          <tr>
+            <td>Supplement</td>
+            <td>Add</td>
+          </tr>
+          <tr>
+            <td>Terminate</td>
+            <td>End</td>
+          </tr>
+        </table>
+      </section>
+    </div>
+  </div>
+  <!--[if lte IE 8 ]>
+    <script src="js/foreach-polyfill.js"></script>
+    <script src="js/filter-polyfill.js"></script>
+  <![endif]-->
+  <script src="js/global.min.js"></script>
+  <script type="text/javascript" data-app-id="V8IthJwWwQwbNoFAIxCmFg" src="https://c64.assets-yammer.com/assets/platform_js_sdk.js"></script>
+</body>
+</html>
